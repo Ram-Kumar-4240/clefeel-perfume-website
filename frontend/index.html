@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clefeel - Premium Perfumes | Discover Your Signature Scent</title>
+  <meta name="description" content="Discover the art of fine fragrances at Clefeel. Curated collection of premium perfumes for men and women. Shop luxury scents online.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+</head>
+<body>
+  <!-- Header will be injected by JS -->
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <p class="hero-tagline">Premium Fragrances</p>
+          <h1 class="hero-title">Discover Your Signature Scent</h1>
+          <p class="hero-description">
+            Experience the art of perfumery with our curated collection of luxury fragrances. 
+            Each scent tells a unique story, crafted for the discerning individual.
+          </p>
+          <div class="hero-buttons">
+            <a href="/shop.html" class="btn btn-primary btn-lg">Shop Now</a>
+            <a href="/shop.html?gender=unisex" class="btn btn-outline btn-lg">Explore Collection</a>
+          </div>
+          
+          <div class="trust-badges">
+            <div class="trust-badge">
+              <div class="trust-badge-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div class="trust-badge-text">
+                <strong>100% Authentic</strong>
+                <span>Genuine Products</span>
+              </div>
+            </div>
+            <div class="trust-badge">
+              <div class="trust-badge-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="trust-badge-text">
+                <strong>Fast Delivery</strong>
+                <span>2-5 Business Days</span>
+              </div>
+            </div>
+            <div class="trust-badge">
+              <div class="trust-badge-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                </svg>
+              </div>
+              <div class="trust-badge-text">
+                <strong>Free Returns</strong>
+                <span>Within 30 Days</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="hero-image">
+          <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600&h=800&fit=crop" alt="Luxury Perfume Bottle">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Featured Products Section -->
+  <section class="section featured-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Collection</h2>
+        <p class="section-subtitle">Handpicked fragrances that define elegance and sophistication</p>
+      </div>
+      
+      <div class="products-grid" id="featured-products">
+        <!-- Products will be loaded dynamically -->
+        <div class="product-card skeleton">
+          <div class="product-image" style="background: #f0f0f0;"></div>
+          <div class="product-info">
+            <div style="height: 20px; background: #f0f0f0; margin-bottom: 8px;"></div>
+            <div style="height: 16px; background: #f0f0f0; width: 60%;"></div>
+          </div>
+        </div>
+        <div class="product-card skeleton">
+          <div class="product-image" style="background: #f0f0f0;"></div>
+          <div class="product-info">
+            <div style="height: 20px; background: #f0f0f0; margin-bottom: 8px;"></div>
+            <div style="height: 16px; background: #f0f0f0; width: 60%;"></div>
+          </div>
+        </div>
+        <div class="product-card skeleton">
+          <div class="product-image" style="background: #f0f0f0;"></div>
+          <div class="product-info">
+            <div style="height: 20px; background: #f0f0f0; margin-bottom: 8px;"></div>
+            <div style="height: 16px; background: #f0f0f0; width: 60%;"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 48px;">
+        <a href="/shop.html" class="btn btn-outline btn-lg">View All Products</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Categories Section -->
+  <section class="section" style="background: var(--color-bg-alt);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Shop by Category</h2>
+        <p class="section-subtitle">Find the perfect fragrance for every occasion</p>
+      </div>
+      
+      <div class="products-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <a href="/shop.html?gender=men" class="product-card" style="text-align: center; padding: 48px 24px;">
+          <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: linear-gradient(135deg, #c9a962 0%, #8b7355 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">👔</div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">For Men</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Bold & Masculine Scents</p>
+        </a>
+        
+        <a href="/shop.html?gender=women" class="product-card" style="text-align: center; padding: 48px 24px;">
+          <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: linear-gradient(135deg, #f4a6c3 0%, #d484a8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">💐</div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">For Women</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Elegant & Feminine Fragrances</p>
+        </a>
+        
+        <a href="/shop.html?gender=unisex" class="product-card" style="text-align: center; padding: 48px 24px;">
+          <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: linear-gradient(135deg, #a8d8ea 0%, #6bb9c7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">✨</div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Unisex</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Universal Appeal Scents</p>
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Newsletter Section -->
+  <section class="section">
+    <div class="container">
+      <div style="background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); border-radius: var(--radius-lg); padding: 64px 48px; text-align: center; color: white;">
+        <h2 style="font-size: 2rem; margin-bottom: 16px; color: white;">Join the Clefeel Family</h2>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto;">Subscribe to receive exclusive offers, new arrival updates, and fragrance tips.</p>
+        
+        <form id="newsletter-form" style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+          <input type="email" placeholder="Enter your email" required style="flex: 1; min-width: 240px; padding: 14px 20px; border: none; border-radius: var(--radius-md); font-size: 0.875rem;">
+          <button type="submit" class="btn btn-primary" style="background: var(--color-primary); border: none;">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer will be injected by JS -->
+  
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+  <script>
+    // Load featured products
+    async function loadFeaturedProducts() {
+      try {
+        const data = await Clefeel.api.products.getFeatured();
+        const container = document.getElementById('featured-products');
+        
+        if (data.perfumes && data.perfumes.length > 0) {
+          container.innerHTML = data.perfumes.map(product => `
+            <div class="product-card">
+              <div class="product-image">
+                <img src="${product.images[0] || 'https://via.placeholder.com/400x500?text=No+Image'}" alt="${product.name}">
+                ${product.is_featured ? '<span class="product-badge">Featured</span>' : ''}
+                <div class="product-actions">
+                  <a href="/product.html?slug=${product.slug}" class="btn btn-primary">View Details</a>
+                </div>
+              </div>
+              <div class="product-info">
+                <h3 class="product-name">${product.name}</h3>
+                <p class="product-meta">${product.gender.charAt(0).toUpperCase() + product.gender.slice(1)} • ${product.variants?.length || 0} sizes</p>
+                <p class="product-price">
+                  From ${Clefeel.utils.formatPrice(product.variants?.[0]?.price || 0)}
+                </p>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          // Show demo products if no data
+          container.innerHTML = getDemoProducts();
+        }
+      } catch (error) {
+        console.error('Failed to load featured products:', error);
+        container.innerHTML = getDemoProducts();
+      }
+    }
+    
+    function getDemoProducts() {
+      const demoProducts = [
+        {
+          name: "Midnight Oud",
+          gender: "men",
+          slug: "midnight-oud",
+          images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+          variants: [{ price: 4999 }]
+        },
+        {
+          name: "Rose Petals",
+          gender: "women",
+          slug: "rose-petals",
+          images: ["https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=500&fit=crop"],
+          variants: [{ price: 3999 }],
+          is_featured: true
+        },
+        {
+          name: "Citrus Bloom",
+          gender: "unisex",
+          slug: "citrus-bloom",
+          images: ["https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=400&h=500&fit=crop"],
+          variants: [{ price: 3499 }]
+        }
+      ];
+      
+      return demoProducts.map(product => `
+        <div class="product-card">
+          <div class="product-image">
+            <img src="${product.images[0]}" alt="${product.name}">
+            ${product.is_featured ? '<span class="product-badge">Featured</span>' : ''}
+            <div class="product-actions">
+              <a href="/product.html?slug=${product.slug}" class="btn btn-primary">View Details</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">${product.name}</h3>
+            <p class="product-meta">${product.gender.charAt(0).toUpperCase() + product.gender.slice(1)} • 3 sizes</p>
+            <p class="product-price">
+              From ${Clefeel.utils.formatPrice(product.variants[0].price)}
+            </p>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // Newsletter form
+    document.getElementById('newsletter-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      Clefeel.toast.success('Thank you for subscribing!');
+      e.target.reset();
+    });
+    
+    // Load products on page load
+    document.addEventListener('DOMContentLoaded', loadFeaturedProducts);
+  </script>
+</body>
+</html>

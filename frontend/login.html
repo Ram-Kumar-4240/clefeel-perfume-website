@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Clefeel Perfumes</title>
+  <meta name="description" content="Sign in to your Clefeel account to access your orders and manage your profile.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Google Sign-In -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <script src="/js/main.js"></script>
+  
+  <main class="auth-page">
+    <div class="auth-card">
+      <div class="auth-header">
+        <a href="/" class="logo">Cle<span>feel</span></a>
+        <h1>Welcome Back</h1>
+        <p>Sign in to access your account and orders</p>
+      </div>
+      
+      <!-- Google Sign In -->
+      <div class="social-login">
+        <div id="g_id_onload"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID"
+             data-callback="handleGoogleSignIn"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin btn-social"
+             data-type="standard"
+             data-size="large"
+             data-theme="outline"
+             data-text="sign_in_with"
+             data-shape="rectangular"
+             data-logo_alignment="left">
+        </div>
+      </div>
+      
+      <div class="divider">or</div>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" id="email" placeholder="your@email.com" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="password" placeholder="••••••••" required>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 0.875rem; cursor: pointer;">
+            <input type="checkbox" style="width: 16px; height: 16px; accent-color: var(--color-primary);">
+            Remember me
+          </label>
+          <a href="/forgot-password.html" style="font-size: 0.875rem; color: var(--color-primary);">Forgot password?</a>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="login-btn">
+          Sign In
+        </button>
+      </form>
+      
+      <div class="auth-footer">
+        Don't have an account? <a href="/register.html">Create one</a>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    // Handle email/password login
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const btn = document.getElementById('login-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div> Signing in...';
+      
+      try {
+        const response = await Clefeel.api.auth.login(
+          document.getElementById('email').value,
+          document.getElementById('password').value
+        );
+        
+        Clefeel.utils.setToken(response.token);
+        Clefeel.utils.setUser(response.user);
+        
+        Clefeel.toast.success('Welcome back!');
+        
+        // Redirect to intended page or home
+        const redirect = new URLSearchParams(window.location.search).get('redirect') || '/';
+        window.location.href = redirect;
+        
+      } catch (error) {
+        Clefeel.toast.error(error.message || 'Invalid email or password');
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+    
+    // Handle Google Sign In
+    async function handleGoogleSignIn(response) {
+      try {
+        const credential = response.credential;
+        // Decode JWT to get user info
+        const payload = JSON.parse(atob(credential.split('.')[1]));
+        
+        const apiResponse = await Clefeel.api.auth.googleLogin({
+          googleId: payload.sub,
+          email: payload.email,
+          firstName: payload.given_name,
+          lastName: payload.family_name,
+          picture: payload.picture
+        });
+        
+        Clefeel.utils.setToken(apiResponse.token);
+        Clefeel.utils.setUser(apiResponse.user);
+        
+        Clefeel.toast.success('Welcome!');
+        window.location.href = '/';
+        
+      } catch (error) {
+        Clefeel.toast.error(error.message || 'Google sign in failed');
+      }
+    }
+    
+    // Check if already logged in
+    if (Clefeel.utils.isLoggedIn()) {
+      window.location.href = '/';
+    }
+  </script>
+</body>
+</html>

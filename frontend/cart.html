@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - Clefeel Perfumes</title>
+  <meta name="description" content="Review your selected perfumes and proceed to checkout.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <script src="/js/main.js"></script>
+  
+  <main class="cart-page">
+    <div class="container">
+      <h1 class="cart-page-title">Shopping Cart</h1>
+      
+      <div class="cart-layout" id="cart-container">
+        <!-- Cart items loaded dynamically -->
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    async function loadCart() {
+      const container = document.getElementById('cart-container');
+      
+      // Check if logged in
+      if (Clefeel.utils.isLoggedIn()) {
+        try {
+          const data = await Clefeel.api.cart.get();
+          renderCart(data.items || [], data.total || 0);
+        } catch (error) {
+          console.error('Failed to load cart:', error);
+          renderEmptyCart();
+        }
+      } else {
+        // Guest cart from localStorage
+        const guestCart = JSON.parse(localStorage.getItem('guest_cart') || '[]');
+        const total = guestCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        renderCart(guestCart, total, true);
+      }
+    }
+    
+    function renderCart(items, total, isGuest = false) {
+      const container = document.getElementById('cart-container');
+      
+      if (items.length === 0) {
+        renderEmptyCart();
+        return;
+      }
+      
+      const itemsHTML = items.map((item, index) => `
+        <div class="cart-item" data-index="${index}" data-variant="${item.variantId}">
+          <div class="cart-item-image">
+            <img src="${item.image || 'https://via.placeholder.com/120x160?text=Perfume'}" alt="${item.perfumeName}">
+          </div>
+          <div class="cart-item-details">
+            <h3>${item.perfumeName}</h3>
+            <p>${item.size}</p>
+            <p class="cart-item-price">${Clefeel.utils.formatPrice(item.price)}</p>
+            
+            <div class="quantity-control" style="margin-top: 12px; width: fit-content;">
+              <button type="button" onclick="updateItemQty(${index}, -1, ${isGuest})">−</button>
+              <input type="number" value="${item.quantity}" readonly style="width: 50px;">
+              <button type="button" onclick="updateItemQty(${index}, 1, ${isGuest})">+</button>
+            </div>
+          </div>
+          <div class="cart-item-actions">
+            <p class="cart-item-total">${Clefeel.utils.formatPrice(item.price * item.quantity)}</p>
+            <button class="remove-btn" onclick="removeItem(${index}, ${isGuest})">Remove</button>
+          </div>
+        </div>
+      `).join('');
+      
+      container.innerHTML = `
+        <div class="cart-items">
+          ${itemsHTML}
+        </div>
+        
+        <div class="cart-summary">
+          <h3 class="cart-summary-title">Order Summary</h3>
+          
+          <div class="summary-row">
+            <span>Subtotal (${items.reduce((sum, i) => sum + i.quantity, 0)} items)</span>
+            <span>${Clefeel.utils.formatPrice(total)}</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+          <div class="summary-row">
+            <span>Tax</span>
+            <span>Calculated at checkout</span>
+          </div>
+          <div class="summary-row total">
+            <span>Estimated Total</span>
+            <span>${Clefeel.utils.formatPrice(total)}</span>
+          </div>
+          
+          <a href="/buy-now.html" class="btn btn-primary btn-full btn-lg" style="margin-top: 24px;">
+            Proceed to Checkout
+          </a>
+          
+          <a href="/shop.html" class="btn btn-ghost btn-full" style="margin-top: 12px;">
+            Continue Shopping
+          </a>
+        </div>
+      `;
+    }
+    
+    function renderEmptyCart() {
+      document.getElementById('cart-container').innerHTML = `
+        <div class="cart-empty" style="grid-column: 1 / -1;">
+          <div class="cart-empty-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+          </div>
+          <h2>Your cart is empty</h2>
+          <p>Looks like you haven't added any fragrances yet.</p>
+          <a href="/shop.html" class="btn btn-primary" style="margin-top: 24px;">Start Shopping</a>
+        </div>
+      `;
+    }
+    
+    async function updateItemQty(index, change, isGuest) {
+      if (isGuest) {
+        let cart = JSON.parse(localStorage.getItem('guest_cart') || '[]');
+        const newQty = cart[index].quantity + change;
+        
+        if (newQty < 1) return;
+        
+        cart[index].quantity = newQty;
+        localStorage.setItem('guest_cart', JSON.stringify(cart));
+        loadCart();
+      } else {
+        // API call for logged in users
+        // Implementation would use cart.update
+      }
+    }
+    
+    async function removeItem(index, isGuest) {
+      if (isGuest) {
+        let cart = JSON.parse(localStorage.getItem('guest_cart') || '[]');
+        cart.splice(index, 1);
+        localStorage.setItem('guest_cart', JSON.stringify(cart));
+        loadCart();
+        Clefeel.toast.success('Item removed');
+      } else {
+        // API call for logged in users
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadCart);
+  </script>
+</body>
+</html>
