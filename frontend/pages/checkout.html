@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Clefeel Luxury Perfumes</title>
+  <meta name="description" content="Complete your purchase securely. Fast checkout with multiple payment options.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../images/logo.png">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="../index.html" class="logo">
+          <span class="logo-text">CLE<span>FEEL</span></span>
+        </a>
+        
+        <nav class="nav">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="shop.html" class="nav-link">Shop</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+        
+        <div class="header-actions">
+          <a href="account.html" class="header-btn" aria-label="Account">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </a>
+          <a href="cart.html" class="header-btn" aria-label="Cart">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+          <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+  <nav class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileNavClose">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="mobile-nav-logo">CLE<span style="color: #CFBF6D;">FEEL</span></div>
+    <div class="mobile-nav-links">
+      <a href="../index.html" class="mobile-nav-link">Home</a>
+      <a href="shop.html" class="mobile-nav-link">Shop</a>
+      <a href="about.html" class="mobile-nav-link">About</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <div class="container">
+      <nav class="breadcrumbs-list">
+        <a href="../index.html">Home</a>
+        <span class="breadcrumbs-separator">/</span>
+        <a href="cart.html">Cart</a>
+        <span class="breadcrumbs-separator">/</span>
+        <span class="breadcrumbs-current">Checkout</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Checkout Section -->
+  <section class="checkout-page">
+    <div class="container">
+      <div class="section-header" style="margin-bottom: 2rem;">
+        <p class="section-subtitle">Secure Payment</p>
+        <h2 class="section-title">Checkout</h2>
+      </div>
+
+      <div class="checkout-layout">
+        <!-- Checkout Form -->
+        <div class="checkout-form">
+          <!-- Contact Information -->
+          <div class="checkout-section">
+            <h3 class="checkout-section-title">Contact Information</h3>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number *</label>
+              <input type="tel" id="phone" placeholder="+91 98765 43210" required>
+            </div>
+          </div>
+
+          <!-- Shipping Address -->
+          <div class="checkout-section">
+            <h3 class="checkout-section-title">Shipping Address</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name *</label>
+                <input type="text" id="firstName" placeholder="John" required>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name *</label>
+                <input type="text" id="lastName" placeholder="Doe" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address1">Address Line 1 *</label>
+              <input type="text" id="address1" placeholder="123 Main Street" required>
+            </div>
+            <div class="form-group">
+              <label for="address2">Address Line 2</label>
+              <input type="text" id="address2" placeholder="Apartment, suite, etc.">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City *</label>
+                <input type="text" id="city" placeholder="Mumbai" required>
+              </div>
+              <div class="form-group">
+                <label for="state">State *</label>
+                <input type="text" id="state" placeholder="Maharashtra" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pincode">PIN Code *</label>
+                <input type="text" id="pincode" placeholder="400001" required>
+              </div>
+              <div class="form-group">
+                <label for="country">Country *</label>
+                <select id="country" required>
+                  <option value="India" selected>India</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="checkout-section">
+            <h3 class="checkout-section-title">Payment Method</h3>
+            <div class="payment-methods">
+              <label class="payment-method">
+                <input type="radio" name="payment" value="razorpay" checked>
+                <span class="payment-method-label">Pay Online (Razorpay)</span>
+                <span class="payment-method-icons">
+                  <span style="font-size: 0.75rem;">Cards/UPI/NetBanking</span>
+                </span>
+              </label>
+              <label class="payment-method">
+                <input type="radio" name="payment" value="cod">
+                <span class="payment-method-label">Cash on Delivery</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Order Notes -->
+          <div class="checkout-section">
+            <h3 class="checkout-section-title">Order Notes (Optional)</h3>
+            <div class="form-group">
+              <textarea id="orderNotes" placeholder="Special instructions for delivery..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <h3 class="summary-title">Order Summary</h3>
+          
+          <div class="order-items" id="orderItems">
+            <!-- Order items will be loaded dynamically -->
+          </div>
+
+          <!-- Coupon -->
+          <div class="coupon-form">
+            <input type="text" id="couponCode" placeholder="Enter coupon code">
+            <button type="button" class="btn btn-secondary" id="applyCoupon">Apply</button>
+          </div>
+          
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">₹0</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span id="shipping">Free</span>
+          </div>
+          <div class="summary-row discount" id="discountRow" style="display: none;">
+            <span>Discount</span>
+            <span id="discount">-₹0</span>
+          </div>
+          
+          <div class="summary-total">
+            <span class="summary-total-label">Total</span>
+            <span class="summary-total-value" id="total">₹0</span>
+          </div>
+          
+          <button type="button" class="btn btn-primary btn-full" id="placeOrderBtn">
+            Place Order
+          </button>
+          
+          <p style="text-align: center; font-size: 0.875rem; color: var(--gray-600); margin-top: 1rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display: inline; vertical-align: middle; margin-right: 5px;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            Secure checkout powered by Razorpay
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">CLE<span>FEEL</span></div>
+          <p class="footer-text">Crafting luxury fragrances that define elegance and sophistication.</p>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="../index.html" class="footer-link">Home</a></li>
+            <li><a href="shop.html" class="footer-link">Shop</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Customer Service</h4>
+          <ul class="footer-links">
+            <li><a href="shipping.html" class="footer-link">Shipping Info</a></li>
+            <li><a href="returns.html" class="footer-link">Returns</a></li>
+            <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Contact Us</h4>
+          <ul class="footer-links">
+            <li><span class="footer-link">support@clefeel.com</span></li>
+            <li><span class="footer-link">+91 98765 43210</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2024 Clefeel. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/checkout.js"></script>
+</body>
+</html>

@@ -3,263 +3,451 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clefeel - Premium Perfumes | Discover Your Signature Scent</title>
-  <meta name="description" content="Discover the art of fine fragrances at Clefeel. Curated collection of premium perfumes for men and women. Shop luxury scents online.">
+  <title>Clefeel | Luxury Perfumes - Feel the Luxury. Own the Scent.</title>
+  <meta name="description" content="Discover Clefeel's exclusive collection of luxury perfumes. Handcrafted fragrances that define elegance and sophistication.">
   
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Styles -->
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
   
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+  <link rel="icon" type="image/png" href="images/logo.png">
 </head>
 <body>
-  <!-- Header will be injected by JS -->
-  
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-inner">
+        <!-- Logo -->
+        <a href="index.html" class="logo">
+          <span class="logo-text">CLE<span>FEEL</span></span>
+        </a>
+        
+        <!-- Navigation -->
+        <nav class="nav">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="pages/shop.html" class="nav-link">Shop</a>
+          <a href="pages/about.html" class="nav-link">About</a>
+          <a href="pages/contact.html" class="nav-link">Contact</a>
+        </nav>
+        
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <button class="header-btn" id="searchBtn" aria-label="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+          <a href="pages/account.html" class="header-btn" aria-label="Account">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </a>
+          <a href="pages/wishlist.html" class="header-btn" aria-label="Wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </a>
+          <a href="pages/cart.html" class="header-btn" aria-label="Cart">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+          <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+  <nav class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileNavClose">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="mobile-nav-logo">CLE<span style="color: #CFBF6D;">FEEL</span></div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="pages/shop.html" class="mobile-nav-link">Shop</a>
+      <a href="pages/about.html" class="mobile-nav-link">About</a>
+      <a href="pages/contact.html" class="mobile-nav-link">Contact</a>
+      <a href="pages/account.html" class="mobile-nav-link">My Account</a>
+      <a href="pages/cart.html" class="mobile-nav-link">Cart</a>
+    </div>
+  </nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <button class="search-close" id="searchClose">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <form class="search-form" id="searchForm">
+      <div class="search-input-wrap">
+        <input type="text" class="search-input" placeholder="Search for perfumes..." id="searchInput">
+        <button type="submit" class="search-submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+
   <!-- Hero Section -->
   <section class="hero">
-    <div class="container">
-      <div class="hero-inner">
-        <div class="hero-content">
-          <p class="hero-tagline">Premium Fragrances</p>
-          <h1 class="hero-title">Discover Your Signature Scent</h1>
-          <p class="hero-description">
-            Experience the art of perfumery with our curated collection of luxury fragrances. 
-            Each scent tells a unique story, crafted for the discerning individual.
-          </p>
-          <div class="hero-buttons">
-            <a href="/shop.html" class="btn btn-primary btn-lg">Shop Now</a>
-            <a href="/shop.html?gender=unisex" class="btn btn-outline btn-lg">Explore Collection</a>
-          </div>
-          
-          <div class="trust-badges">
-            <div class="trust-badge">
-              <div class="trust-badge-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-              </div>
-              <div class="trust-badge-text">
-                <strong>100% Authentic</strong>
-                <span>Genuine Products</span>
-              </div>
-            </div>
-            <div class="trust-badge">
-              <div class="trust-badge-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-              </div>
-              <div class="trust-badge-text">
-                <strong>Fast Delivery</strong>
-                <span>2-5 Business Days</span>
-              </div>
-            </div>
-            <div class="trust-badge">
-              <div class="trust-badge-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                </svg>
-              </div>
-              <div class="trust-badge-text">
-                <strong>Free Returns</strong>
-                <span>Within 30 Days</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="hero-image">
-          <img src="https://res.cloudinary.com/dgojt5udn/image/upload/v1771667164/ChatGPT_Image_Feb_20_2026_10_48_11_PM_wupuxm.png" alt="Luxury Perfume Bottle">
-        </div>
+    <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1920&q=80" alt="Luxury Perfume" class="hero-bg">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle">Premium Collection 2024</p>
+      <h1 class="hero-title">Feel the Luxury.<br><span>Own the Scent.</span></h1>
+      <p class="hero-description">Discover our exclusive collection of handcrafted fragrances, designed to captivate and leave a lasting impression.</p>
+      <div class="hero-actions">
+        <a href="pages/shop.html" class="btn btn-primary">Shop Now</a>
+        <a href="pages/about.html" class="btn btn-outline-gold">Our Story</a>
       </div>
     </div>
-  </section>
-  
-  <!-- Featured Products Section -->
-  <section class="section featured-section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Featured Collection</h2>
-        <p class="section-subtitle">Handpicked fragrances that define elegance and sophistication</p>
-      </div>
-      
-      <div class="products-grid" id="featured-products">
-        <!-- Products will be loaded dynamically -->
-        <div class="product-card skeleton">
-          <div class="product-image" style="background: #f0f0f0;"></div>
-          <div class="product-info">
-            <div style="height: 20px; background: #f0f0f0; margin-bottom: 8px;"></div>
-            <div style="height: 16px; background: #f0f0f0; width: 60%;"></div>
-          </div>
-        </div>
-        <div class="product-card skeleton">
-          <div class="product-image" style="background: #f0f0f0;"></div>
-          <div class="product-info">
-            <div style="height: 20px; background: #f0f0f0; margin-bottom: 8px;"></div>
-            <div style="height: 16px; background: #f0f0f0; width: 60%;"></div>
-          </div>
-        </div>
-        <div class="product-card skeleton">
-          <div class="product-image" style="background: #f0f0f0;"></div>
-          <div class="product-info">
-            <div style="height: 20px; background: #f0f0f0; margin-bottom: 8px;"></div>
-            <div style="height: 16px; background: #f0f0f0; width: 60%;"></div>
-          </div>
-        </div>
-      </div>
-      
-      <div style="text-align: center; margin-top: 48px;">
-        <a href="/shop.html" class="btn btn-outline btn-lg">View All Products</a>
-      </div>
+    <div class="hero-scroll">
+      <div class="scroll-indicator"></div>
     </div>
   </section>
-  
-  <!-- Categories Section -->
-  <section class="section" style="background: var(--color-bg-alt);">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Shop by Category</h2>
-        <p class="section-subtitle">Find the perfect fragrance for every occasion</p>
-      </div>
-      
-      <div class="products-grid" style="grid-template-columns: repeat(3, 1fr);">
-        <a href="/shop.html?gender=men" class="product-card" style="text-align: center; padding: 48px 24px;">
-          <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: linear-gradient(135deg, #c9a962 0%, #8b7355 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">👔</div>
-          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">For Men</h3>
-          <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Bold & Masculine Scents</p>
-        </a>
-        
-        <a href="/shop.html?gender=women" class="product-card" style="text-align: center; padding: 48px 24px;">
-          <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: linear-gradient(135deg, #f4a6c3 0%, #d484a8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">💐</div>
-          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">For Women</h3>
-          <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Elegant & Feminine Fragrances</p>
-        </a>
-        
-        <a href="/shop.html?gender=unisex" class="product-card" style="text-align: center; padding: 48px 24px;">
-          <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: linear-gradient(135deg, #a8d8ea 0%, #6bb9c7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">✨</div>
-          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Unisex</h3>
-          <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Universal Appeal Scents</p>
-        </a>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Newsletter Section -->
+
+  <!-- Best Sellers Section -->
   <section class="section">
     <div class="container">
-      <div style="background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); border-radius: var(--radius-lg); padding: 64px 48px; text-align: center; color: white;">
-        <h2 style="font-size: 2rem; margin-bottom: 16px; color: white;">Join the Clefeel Family</h2>
-        <p style="color: rgba(255,255,255,0.7); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto;">Subscribe to receive exclusive offers, new arrival updates, and fragrance tips.</p>
+      <div class="section-header">
+        <p class="section-subtitle">Most Loved</p>
+        <h2 class="section-title">Best Sellers</h2>
+        <p class="section-description">Our most popular fragrances, loved by thousands of customers worldwide.</p>
+      </div>
+      
+      <div class="products-grid" id="bestSellersGrid">
+        <!-- Products will be loaded dynamically -->
+        <div class="product-card skeleton-card">
+          <div class="product-image-wrap skeleton" style="aspect-ratio: 3/4;"></div>
+          <div class="product-info">
+            <div class="skeleton" style="height: 12px; width: 60%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 20px; width: 80%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 16px; width: 40%; margin: 0 auto;"></div>
+          </div>
+        </div>
+        <div class="product-card skeleton-card">
+          <div class="product-image-wrap skeleton" style="aspect-ratio: 3/4;"></div>
+          <div class="product-info">
+            <div class="skeleton" style="height: 12px; width: 60%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 20px; width: 80%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 16px; width: 40%; margin: 0 auto;"></div>
+          </div>
+        </div>
+        <div class="product-card skeleton-card">
+          <div class="product-image-wrap skeleton" style="aspect-ratio: 3/4;"></div>
+          <div class="product-info">
+            <div class="skeleton" style="height: 12px; width: 60%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 20px; width: 80%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 16px; width: 40%; margin: 0 auto;"></div>
+          </div>
+        </div>
+        <div class="product-card skeleton-card">
+          <div class="product-image-wrap skeleton" style="aspect-ratio: 3/4;"></div>
+          <div class="product-info">
+            <div class="skeleton" style="height: 12px; width: 60%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 20px; width: 80%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 16px; width: 40%; margin: 0 auto;"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center" style="margin-top: 3rem;">
+        <a href="pages/shop.html" class="btn btn-secondary">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signature Collections Section -->
+  <section class="section bg-nude">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-subtitle">Explore</p>
+        <h2 class="section-title">Signature Collections</h2>
+        <p class="section-description">Each collection tells a unique story through carefully curated notes and accords.</p>
+      </div>
+      
+      <div class="collections-grid">
+        <div class="collection-card">
+          <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80" alt="Royal Oud Series" class="collection-image">
+          <div class="collection-overlay">
+            <h3 class="collection-name">Royal Oud Series</h3>
+            <p class="collection-count">12 Products</p>
+          </div>
+          <a href="pages/shop.html?category=royal-oud-series" class="collection-link"></a>
+        </div>
         
-        <form id="newsletter-form" style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
-          <input type="email" placeholder="Enter your email" required style="flex: 1; min-width: 240px; padding: 14px 20px; border: none; border-radius: var(--radius-md); font-size: 0.875rem;">
-          <button type="submit" class="btn btn-primary" style="background: var(--color-primary); border: none;">Subscribe</button>
+        <div class="collection-card">
+          <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&q=80" alt="Velvet Rose Collection" class="collection-image">
+          <div class="collection-overlay">
+            <h3 class="collection-name">Velvet Rose Collection</h3>
+            <p class="collection-count">8 Products</p>
+          </div>
+          <a href="pages/shop.html?category=velvet-rose-collection" class="collection-link"></a>
+        </div>
+        
+        <div class="collection-card">
+          <img src="https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?w=600&q=80" alt="Amber Mystique Line" class="collection-image">
+          <div class="collection-overlay">
+            <h3 class="collection-name">Amber Mystique Line</h3>
+            <p class="collection-count">10 Products</p>
+          </div>
+          <a href="pages/shop.html?category=amber-mystique-line" class="collection-link"></a>
+        </div>
+        
+        <div class="collection-card">
+          <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=600&q=80" alt="Midnight Noir Edition" class="collection-image">
+          <div class="collection-overlay">
+            <h3 class="collection-name">Midnight Noir Edition</h3>
+            <p class="collection-count">6 Products</p>
+          </div>
+          <a href="pages/shop.html?category=midnight-noir-edition" class="collection-link"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-subtitle">Our Promise</p>
+        <h2 class="section-title">Why Choose Clefeel</h2>
+        <p class="section-description">We are committed to delivering an exceptional fragrance experience.</p>
+      </div>
+      
+      <div class="why-choose-grid">
+        <div class="why-choose-item">
+          <div class="why-choose-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+          </div>
+          <h3 class="why-choose-title">Premium Quality</h3>
+          <p class="why-choose-text">Crafted with the finest ingredients sourced from around the world for an unparalleled olfactory experience.</p>
+        </div>
+        
+        <div class="why-choose-item">
+          <div class="why-choose-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
+          <h3 class="why-choose-title">Elegant Packaging</h3>
+          <p class="why-choose-text">Each fragrance comes in beautifully designed packaging, perfect for gifting or personal indulgence.</p>
+        </div>
+        
+        <div class="why-choose-item">
+          <div class="why-choose-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="why-choose-title">Worldwide Shipping</h3>
+          <p class="why-choose-text">We deliver our luxury fragrances to your doorstep anywhere in the world with secure packaging.</p>
+        </div>
+        
+        <div class="why-choose-item">
+          <div class="why-choose-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <h3 class="why-choose-title">Easy Returns</h3>
+          <p class="why-choose-text">Not satisfied? We offer hassle-free returns within 30 days of purchase for a full refund.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="section bg-nude">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-subtitle">Curated For You</p>
+        <h2 class="section-title">Featured Fragrances</h2>
+        <p class="section-description">Handpicked selections from our master perfumers.</p>
+      </div>
+      
+      <div class="products-grid" id="featuredProductsGrid">
+        <!-- Products will be loaded dynamically -->
+        <div class="product-card skeleton-card">
+          <div class="product-image-wrap skeleton" style="aspect-ratio: 3/4;"></div>
+          <div class="product-info">
+            <div class="skeleton" style="height: 12px; width: 60%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 20px; width: 80%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 16px; width: 40%; margin: 0 auto;"></div>
+          </div>
+        </div>
+        <div class="product-card skeleton-card">
+          <div class="product-image-wrap skeleton" style="aspect-ratio: 3/4;"></div>
+          <div class="product-info">
+            <div class="skeleton" style="height: 12px; width: 60%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 20px; width: 80%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 16px; width: 40%; margin: 0 auto;"></div>
+          </div>
+        </div>
+        <div class="product-card skeleton-card">
+          <div class="product-image-wrap skeleton" style="aspect-ratio: 3/4;"></div>
+          <div class="product-info">
+            <div class="skeleton" style="height: 12px; width: 60%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 20px; width: 80%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 16px; width: 40%; margin: 0 auto;"></div>
+          </div>
+        </div>
+        <div class="product-card skeleton-card">
+          <div class="product-image-wrap skeleton" style="aspect-ratio: 3/4;"></div>
+          <div class="product-info">
+            <div class="skeleton" style="height: 12px; width: 60%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 20px; width: 80%; margin: 0 auto 10px;"></div>
+            <div class="skeleton" style="height: 16px; width: 40%; margin: 0 auto;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Badges Section -->
+  <section class="trust-badges">
+    <div class="container">
+      <div class="trust-badges-grid">
+        <div class="trust-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          <span class="trust-badge-text">Secure Payment</span>
+        </div>
+        <div class="trust-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7" />
+          </svg>
+          <span class="trust-badge-text">100% Authentic</span>
+        </div>
+        <div class="trust-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="trust-badge-text">Fast Delivery</span>
+        </div>
+        <div class="trust-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <span class="trust-badge-text">24/7 Support</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-content">
+        <h2 class="newsletter-title">Join the Clefeel Family</h2>
+        <p class="newsletter-text">Subscribe to receive exclusive offers, early access to new collections, and fragrance tips from our experts.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Enter your email address" required>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
         </form>
       </div>
     </div>
   </section>
-  
-  <!-- Footer will be injected by JS -->
-  
-  <!-- Scripts -->
-  <script src="/js/main.js"></script>
-  <script>
-    // Load featured products
-    async function loadFeaturedProducts() {
-      try {
-        const data = await Clefeel.api.products.getFeatured();
-        const container = document.getElementById('featured-products');
-        
-        if (data.perfumes && data.perfumes.length > 0) {
-          container.innerHTML = data.perfumes.map(product => `
-            <div class="product-card">
-              <div class="product-image">
-                <img src="${product.images[0] || 'https://via.placeholder.com/400x500?text=No+Image'}" alt="${product.name}">
-                ${product.is_featured ? '<span class="product-badge">Featured</span>' : ''}
-                <div class="product-actions">
-                  <a href="/product.html?slug=${product.slug}" class="btn btn-primary">View Details</a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-meta">${product.gender.charAt(0).toUpperCase() + product.gender.slice(1)} • ${product.variants?.length || 0} sizes</p>
-                <p class="product-price">
-                  From ${Clefeel.utils.formatPrice(product.variants?.[0]?.price || 0)}
-                </p>
-              </div>
-            </div>
-          `).join('');
-        } else {
-          // Show demo products if no data
-          container.innerHTML = getDemoProducts();
-        }
-      } catch (error) {
-        console.error('Failed to load featured products:', error);
-        container.innerHTML = getDemoProducts();
-      }
-    }
-    
-    function getDemoProducts() {
-      const demoProducts = [
-        {
-          name: "Midnight Oud",
-          gender: "men",
-          slug: "midnight-oud",
-          images: ["https://res.cloudinary.com/dgojt5udn/image/upload/v1771416046/bottle-vert_mazgji.png"],
-          variants: [{ price: 4999 }]
-        },
-        {
-          name: "Rose Petals",
-          gender: "women",
-          slug: "rose-petals",
-          images: ["https://res.cloudinary.com/dgojt5udn/image/upload/v1771416046/bottle-rose_sajvoq.png"],
-          variants: [{ price: 3999 }],
-          is_featured: true
-        },
-        {
-          name: "Citrus Bloom",
-          gender: "unisex",
-          slug: "citrus-bloom",
-          images: ["https://res.cloudinary.com/dgojt5udn/image/upload/v1771416045/bottle-soleil_mle6gz.png"],
-          variants: [{ price: 3499 }]
-        }
-      ];
-      
-      return demoProducts.map(product => `
-        <div class="product-card">
-          <div class="product-image">
-            <img src="${product.images[0]}" alt="${product.name}">
-            ${product.is_featured ? '<span class="product-badge">Featured</span>' : ''}
-            <div class="product-actions">
-              <a href="/product.html?slug=${product.slug}" class="btn btn-primary">View Details</a>
-            </div>
-          </div>
-          <div class="product-info">
-            <h3 class="product-name">${product.name}</h3>
-            <p class="product-meta">${product.gender.charAt(0).toUpperCase() + product.gender.slice(1)} • 3 sizes</p>
-            <p class="product-price">
-              From ${Clefeel.utils.formatPrice(product.variants[0].price)}
-            </p>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand Column -->
+        <div class="footer-brand">
+          <div class="footer-logo">CLE<span>FEEL</span></div>
+          <p class="footer-text">Crafting luxury fragrances that define elegance and sophistication. Experience the art of perfumery with Clefeel.</p>
+          <div class="footer-social">
+            <a href="#" class="footer-social-link" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="#" class="footer-social-link" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a href="#" class="footer-social-link" aria-label="Twitter">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+              </svg>
+            </a>
           </div>
         </div>
-      `).join('');
-    }
-    
-    // Newsletter form
-    document.getElementById('newsletter-form')?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      Clefeel.toast.success('Thank you for subscribing!');
-      e.target.reset();
-    });
-    
-    // Load products on page load
-    document.addEventListener('DOMContentLoaded', loadFeaturedProducts);
-  </script>
+        
+        <!-- Quick Links -->
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="pages/shop.html" class="footer-link">Shop</a></li>
+            <li><a href="pages/about.html" class="footer-link">About Us</a></li>
+            <li><a href="pages/contact.html" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Customer Service -->
+        <div class="footer-column">
+          <h4>Customer Service</h4>
+          <ul class="footer-links">
+            <li><a href="pages/shipping.html" class="footer-link">Shipping Info</a></li>
+            <li><a href="pages/returns.html" class="footer-link">Returns & Exchanges</a></li>
+            <li><a href="pages/faq.html" class="footer-link">FAQ</a></li>
+            <li><a href="pages/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="pages/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div class="footer-column">
+          <h4>Contact Us</h4>
+          <ul class="footer-links">
+            <li><span class="footer-link">support@clefeel.com</span></li>
+            <li><span class="footer-link">+91 98765 43210</span></li>
+            <li><span class="footer-link">123 Fragrance Lane,<br>Mumbai, India 400001</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2024 Clefeel. All rights reserved.</p>
+        <div class="footer-payments">
+          <div class="footer-payment-icon">VISA</div>
+          <div class="footer-payment-icon">MC</div>
+          <div class="footer-payment-icon">AMEX</div>
+          <div class="footer-payment-icon">UPI</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>

@@ -1,502 +1,460 @@
-// Clefeel Perfume - Main JavaScript
+/**
+ * Clefeel Luxury Perfumes - Main JavaScript
+ * Frontend functionality for the e-commerce website
+ */
 
-const API_BASE_URL = window.location.hostname === 'localhost' 
-  ? 'http://localhost:3000/api' 
-  : 'https://your-api-domain.com/api';
+// API Base URL
+const API_BASE_URL = 'http://localhost:3000/api';
 
-// Utility Functions
-const utils = {
-  formatPrice(price) {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 0
-    }).format(price);
-  },
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
 
-  formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  },
+/**
+ * Format price in Indian Rupees
+ */
+function formatPrice(price) {
+  return '₹' + parseInt(price).toLocaleString('en-IN');
+}
 
-  generateSlug(name) {
-    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-  },
+/**
+ * Show toast notification
+ */
+function showToast(message, type = 'success', title = '') {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
 
-  debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  },
-
-  getToken() {
-    return localStorage.getItem('clefeel_token');
-  },
-
-  setToken(token) {
-    localStorage.setItem('clefeel_token', token);
-  },
-
-  removeToken() {
-    localStorage.removeItem('clefeel_token');
-  },
-
-  getUser() {
-    const user = localStorage.getItem('clefeel_user');
-    return user ? JSON.parse(user) : null;
-  },
-
-  setUser(user) {
-    localStorage.setItem('clefeel_user', JSON.stringify(user));
-  },
-
-  removeUser() {
-    localStorage.removeItem('clefeel_user');
-  },
-
-  isLoggedIn() {
-    return !!this.getToken();
-  },
-
-  isAdmin() {
-    const user = this.getUser();
-    return user && user.role === 'admin';
-  }
-};
-
-// API Client
-const api = {
-  async request(endpoint, options = {}) {
-    const url = `${API_BASE_URL}${endpoint}`;
-    const token = utils.getToken();
-    
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { 'Authorization': `Bearer ${token}` }),
-        ...options.headers
-      },
-      ...options
-    };
-
-    if (config.body && typeof config.body === 'object') {
-      config.body = JSON.stringify(config.body);
-    }
-
-    try {
-      const response = await fetch(url, config);
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Something went wrong');
-      }
-
-      return data;
-    } catch (error) {
-      console.error('API Error:', error);
-      throw error;
-    }
-  },
-
-  // Auth
-  auth: {
-    login(email, password) {
-      return api.request('/auth/login', {
-        method: 'POST',
-        body: { email, password }
-      });
-    },
-
-    register(userData) {
-      return api.request('/auth/register', {
-        method: 'POST',
-        body: userData
-      });
-    },
-
-    googleLogin(googleData) {
-      return api.request('/auth/google', {
-        method: 'POST',
-        body: googleData
-      });
-    },
-
-    getMe() {
-      return api.request('/auth/me');
-    },
-
-    logout() {
-      return api.request('/auth/logout', { method: 'POST' });
-    }
-  },
-
-  // Products
-  products: {
-    getAll(filters = {}) {
-      const params = new URLSearchParams(filters).toString();
-      return api.request(`/perfumes?${params}`);
-    },
-
-    getFeatured() {
-      return api.request('/perfumes/featured');
-    },
-
-    getBySlug(slug) {
-      return api.request(`/perfumes/${slug}`);
-    }
-  },
-
-  // Cart
-  cart: {
-    get() {
-      return api.request('/cart');
-    },
-
-    add(variantId, quantity = 1) {
-      return api.request('/cart', {
-        method: 'POST',
-        body: { variantId, quantity }
-      });
-    },
-
-    update(cartId, quantity) {
-      return api.request(`/cart/${cartId}`, {
-        method: 'PUT',
-        body: { quantity }
-      });
-    },
-
-    remove(cartId) {
-      return api.request(`/cart/${cartId}`, {
-        method: 'DELETE'
-      });
-    },
-
-    clear() {
-      return api.request('/cart', { method: 'DELETE' });
-    },
-
-    getCount() {
-      return api.request('/cart/count');
-    }
-  },
-
-  // Orders
-  orders: {
-    create(orderData) {
-      return api.request('/orders', {
-        method: 'POST',
-        body: orderData
-      });
-    },
-
-    createFromCart(orderData) {
-      return api.request('/orders/from-cart', {
-        method: 'POST',
-        body: orderData
-      });
-    },
-
-    getMyOrders() {
-      return api.request('/orders/my-orders');
-    },
-
-    getById(id) {
-      return api.request(`/orders/${id}`);
-    }
-  }
-};
-
-// Toast Notifications
-const toast = {
-  container: null,
-
-  init() {
-    if (!this.container) {
-      this.container = document.createElement('div');
-      this.container.className = 'toast-container';
-      document.body.appendChild(this.container);
-    }
-  },
-
-  show(message, type = 'success', duration = 3000) {
-    this.init();
-
-    const toastEl = document.createElement('div');
-    toastEl.className = `toast ${type}`;
-    toastEl.innerHTML = `
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        ${type === 'success' 
-          ? '<path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z" fill="#28A745"/>'
-          : '<path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm1 15H9v-2h2v2zm0-4H9V5h2v6z" fill="#DC3545"/>'
-        }
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  
+  const iconSvg = type === 'success' 
+    ? '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>'
+    : type === 'error'
+    ? '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>'
+    : '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>';
+  
+  toast.innerHTML = `
+    <div class="toast-icon">${iconSvg}</div>
+    <div class="toast-content">
+      ${title ? `<div class="toast-title">${title}</div>` : ''}
+      <div class="toast-message">${message}</div>
+    </div>
+    <button class="toast-close" onclick="this.parentElement.remove()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
-      <span>${message}</span>
-    `;
+    </button>
+  `;
+  
+  container.appendChild(toast);
+  
+  // Auto remove after 4 seconds
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
 
-    this.container.appendChild(toastEl);
-
-    setTimeout(() => {
-      toastEl.classList.add('hide');
-      setTimeout(() => toastEl.remove(), 300);
-    }, duration);
-  },
-
-  success(message) {
-    this.show(message, 'success');
-  },
-
-  error(message) {
-    this.show(message, 'error');
+/**
+ * Make API request
+ */
+async function apiRequest(endpoint, options = {}) {
+  const url = `${API_BASE_URL}${endpoint}`;
+  
+  const defaultOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  
+  // Add auth token if available
+  const token = localStorage.getItem('token');
+  if (token) {
+    defaultOptions.headers['Authorization'] = `Bearer ${token}`;
   }
-};
-
-// Cart State Management
-const cart = {
-  items: [],
-  count: 0,
-  total: 0,
-
-  async init() {
-    if (utils.isLoggedIn()) {
-      await this.refresh();
+  
+  try {
+    const response = await fetch(url, { ...defaultOptions, ...options });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.error || 'Something went wrong');
     }
-    this.updateUI();
-  },
+    
+    return data;
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
+}
 
-  async refresh() {
-    try {
-      const data = await api.cart.get();
-      this.items = data.items || [];
-      this.count = data.count || 0;
-      this.total = data.total || 0;
-      this.updateUI();
-    } catch (error) {
-      console.error('Failed to load cart:', error);
-    }
-  },
+// ============================================
+// CART FUNCTIONS
+// ============================================
 
-  async add(variantId, quantity = 1) {
-    try {
-      await api.cart.add(variantId, quantity);
-      await this.refresh();
-      toast.success('Added to cart');
-      return true;
-    } catch (error) {
-      toast.error(error.message);
-      return false;
-    }
-  },
+/**
+ * Get cart from localStorage
+ */
+function getCart() {
+  const cart = localStorage.getItem('cart');
+  return cart ? JSON.parse(cart) : [];
+}
 
-  async update(cartId, quantity) {
-    try {
-      await api.cart.update(cartId, quantity);
-      await this.refresh();
-      return true;
-    } catch (error) {
-      toast.error(error.message);
-      return false;
-    }
-  },
+/**
+ * Save cart to localStorage
+ */
+function saveCart(cart) {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+}
 
-  async remove(cartId) {
-    try {
-      await api.cart.remove(cartId);
-      await this.refresh();
-      toast.success('Item removed');
-      return true;
-    } catch (error) {
-      toast.error(error.message);
-      return false;
-    }
-  },
-
-  updateUI() {
-    // Update cart count badges
-    document.querySelectorAll('.cart-count').forEach(el => {
-      el.textContent = this.count;
-      el.style.display = this.count > 0 ? 'flex' : 'none';
+/**
+ * Add item to cart
+ */
+function addToCart(product, variant, quantity = 1) {
+  const cart = getCart();
+  
+  const existingItem = cart.find(item => 
+    item.productId === product.id && item.variantId === variant.id
+  );
+  
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    cart.push({
+      productId: product.id,
+      variantId: variant.id,
+      name: product.name,
+      image: product.images?.[0] || '',
+      size: variant.size,
+      price: variant.price,
+      quantity: quantity
     });
   }
-};
+  
+  saveCart(cart);
+  showToast('Item added to cart successfully!');
+}
 
-// Header Component
-const header = {
-  init() {
-    this.render();
-    this.attachEvents();
-  },
+/**
+ * Remove item from cart
+ */
+function removeFromCart(productId, variantId) {
+  let cart = getCart();
+  cart = cart.filter(item => !(item.productId === productId && item.variantId === variantId));
+  saveCart(cart);
+  showToast('Item removed from cart');
+}
 
-  render() {
-    const user = utils.getUser();
-    const isLoggedIn = utils.isLoggedIn();
+/**
+ * Update cart item quantity
+ */
+function updateCartQuantity(productId, variantId, quantity) {
+  const cart = getCart();
+  const item = cart.find(item => item.productId === productId && item.variantId === variantId);
+  
+  if (item) {
+    item.quantity = Math.max(1, quantity);
+    saveCart(cart);
+  }
+}
 
-    const headerHTML = `
-      <header class="header">
-        <div class="container">
-          <div class="header-inner">
-            <a href="/" class="logo">Cle<span>feel</span></a>
-            
-            <nav class="nav">
-              <a href="/" class="nav-link ${location.pathname === '/' ? 'active' : ''}">Home</a>
-              <a href="/shop.html" class="nav-link ${location.pathname === '/shop.html' ? 'active' : ''}">Shop</a>
-              <a href="/about.html" class="nav-link ${location.pathname === '/about.html' ? 'active' : ''}">About</a>
-              <a href="/contact.html" class="nav-link ${location.pathname === '/contact.html' ? 'active' : ''}">Contact</a>
-            </nav>
-            
-            <div class="header-actions">
-              ${isLoggedIn ? `
-                <a href="/account.html" class="icon-btn" title="My Account">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                </a>
-              ` : `
-                <a href="/login.html" class="icon-btn" title="Login">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                    <polyline points="10 17 15 12 10 7"></polyline>
-                    <line x1="15" y1="12" x2="3" y2="12"></line>
-                  </svg>
-                </a>
-              `}
-              
-              <a href="/cart.html" class="icon-btn cart-btn" title="Cart">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="9" cy="21" r="1"></circle>
-                  <circle cx="20" cy="21" r="1"></circle>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                <span class="cart-count" style="display: none;">0</span>
-              </a>
-              
-              <button class="mobile-menu-btn" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-    `;
+/**
+ * Get cart total
+ */
+function getCartTotal() {
+  const cart = getCart();
+  return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+}
 
-    // Insert header at the beginning of body
-    const existingHeader = document.querySelector('.header');
-    if (existingHeader) {
-      existingHeader.outerHTML = headerHTML;
+/**
+ * Get cart item count
+ */
+function getCartItemCount() {
+  const cart = getCart();
+  return cart.reduce((count, item) => count + item.quantity, 0);
+}
+
+/**
+ * Update cart count in header
+ */
+function updateCartCount() {
+  const cartCountElements = document.querySelectorAll('#cartCount');
+  const count = getCartItemCount();
+  cartCountElements.forEach(el => {
+    el.textContent = count;
+    el.style.display = count > 0 ? 'flex' : 'none';
+  });
+}
+
+/**
+ * Clear cart
+ */
+function clearCart() {
+  localStorage.removeItem('cart');
+  updateCartCount();
+}
+
+// ============================================
+// WISHLIST FUNCTIONS
+// ============================================
+
+/**
+ * Get wishlist from localStorage
+ */
+function getWishlist() {
+  const wishlist = localStorage.getItem('wishlist');
+  return wishlist ? JSON.parse(wishlist) : [];
+}
+
+/**
+ * Add to wishlist
+ */
+function addToWishlist(productId) {
+  const wishlist = getWishlist();
+  if (!wishlist.includes(productId)) {
+    wishlist.push(productId);
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    showToast('Added to wishlist!');
+  }
+}
+
+/**
+ * Remove from wishlist
+ */
+function removeFromWishlist(productId) {
+  let wishlist = getWishlist();
+  wishlist = wishlist.filter(id => id !== productId);
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  showToast('Removed from wishlist');
+}
+
+/**
+ * Check if product is in wishlist
+ */
+function isInWishlist(productId) {
+  const wishlist = getWishlist();
+  return wishlist.includes(productId);
+}
+
+// ============================================
+// AUTH FUNCTIONS
+// ============================================
+
+/**
+ * Check if user is logged in
+ */
+function isLoggedIn() {
+  return !!localStorage.getItem('token');
+}
+
+/**
+ * Get current user
+ */
+function getCurrentUser() {
+  const user = localStorage.getItem('user');
+  return user ? JSON.parse(user) : null;
+}
+
+/**
+ * Logout user
+ */
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = 'login.html';
+}
+
+// ============================================
+// UI FUNCTIONS
+// ============================================
+
+/**
+ * Initialize header scroll effect
+ */
+function initHeader() {
+  const header = document.getElementById('header');
+  if (!header) return;
+  
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
     } else {
-      document.body.insertAdjacentHTML('afterbegin', headerHTML);
+      header.classList.remove('scrolled');
     }
-  },
+  });
+}
 
-  attachEvents() {
-    // Mobile menu toggle
-    const menuBtn = document.querySelector('.mobile-menu-btn');
-    if (menuBtn) {
-      menuBtn.addEventListener('click', () => {
-        document.body.classList.toggle('menu-open');
-      });
-    }
+/**
+ * Initialize mobile navigation
+ */
+function initMobileNav() {
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+  const mobileNavClose = document.getElementById('mobileNavClose');
+  
+  if (!menuToggle || !mobileNav) return;
+  
+  function openNav() {
+    mobileNav.classList.add('active');
+    if (mobileNavOverlay) mobileNavOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
-};
+  
+  function closeNav() {
+    mobileNav.classList.remove('active');
+    if (mobileNavOverlay) mobileNavOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  menuToggle.addEventListener('click', openNav);
+  if (mobileNavClose) mobileNavClose.addEventListener('click', closeNav);
+  if (mobileNavOverlay) mobileNavOverlay.addEventListener('click', closeNav);
+}
 
-// Footer Component
-const footer = {
-  init() {
-    const footerHTML = `
-      <footer class="footer">
-        <div class="container">
-          <div class="footer-grid">
-            <div class="footer-brand">
-              <a href="/" class="logo">Cle<span>feel</span></a>
-              <p>Discover the art of fine fragrances. Curated perfumes for the discerning individual who appreciates luxury and elegance.</p>
-            </div>
-            
-            <div class="footer-column">
-              <h4 class="footer-title">Shop</h4>
-              <div class="footer-links">
-                <a href="/shop.html">All Perfumes</a>
-                <a href="/shop.html?gender=men">For Men</a>
-                <a href="/shop.html?gender=women">For Women</a>
-                <a href="/shop.html?gender=unisex">Unisex</a>
-              </div>
-            </div>
-            
-            <div class="footer-column">
-              <h4 class="footer-title">Company</h4>
-              <div class="footer-links">
-                <a href="/about.html">About Us</a>
-                <a href="/contact.html">Contact</a>
-                <a href="/terms.html">Terms of Service</a>
-                <a href="/privacy.html">Privacy Policy</a>
-              </div>
-            </div>
-            
-            <div class="footer-column">
-              <h4 class="footer-title">Support</h4>
-              <div class="footer-links">
-                <a href="/faq.html">FAQ</a>
-                <a href="/shipping.html">Shipping Info</a>
-                <a href="/returns.html">Returns</a>
-                <a href="/track-order.html">Track Order</a>
-              </div>
-            </div>
-          </div>
-          
-          <div class="footer-bottom">
-            <p class="footer-copyright">© ${new Date().getFullYear()} Clefeel Parfumerie. All rights reserved.</p>
-            <div class="footer-social">
-              <a href="#" aria-label="Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-              <a href="#" aria-label="Facebook">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                </svg>
-              </a>
-              <a href="#" aria-label="Twitter">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
+/**
+ * Initialize search overlay
+ */
+function initSearch() {
+  const searchBtn = document.getElementById('searchBtn');
+  const searchOverlay = document.getElementById('searchOverlay');
+  const searchClose = document.getElementById('searchClose');
+  const searchForm = document.getElementById('searchForm');
+  
+  if (!searchBtn || !searchOverlay) return;
+  
+  searchBtn.addEventListener('click', () => {
+    searchOverlay.classList.add('active');
+    document.getElementById('searchInput')?.focus();
+  });
+  
+  if (searchClose) {
+    searchClose.addEventListener('click', () => {
+      searchOverlay.classList.remove('active');
+    });
+  }
+  
+  if (searchForm) {
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value;
+      if (query) {
+        window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+      }
+    });
+  }
+}
+
+/**
+ * Create product card HTML
+ */
+function createProductCard(product) {
+  const variant = product.variants?.[0] || { price: 0, compare_price: 0 };
+  const hasDiscount = variant.compare_price > variant.price;
+  
+  return `
+    <div class="product-card" data-product-id="${product.id}">
+      <div class="product-image-wrap">
+        <img src="${product.images?.[0] || 'https://via.placeholder.com/400x500?text=No+Image'}" alt="${product.name}" class="product-image">
+        ${product.is_bestseller ? '<span class="product-badge bestseller">Bestseller</span>' : ''}
+        ${product.is_featured && !product.is_bestseller ? '<span class="product-badge">Featured</span>' : ''}
+        <div class="product-actions">
+          <button class="product-action-btn wishlist-btn" data-product-id="${product.id}" title="Add to Wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </button>
+          <a href="product.html?id=${product.id}" class="product-action-btn" title="Quick View">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </a>
         </div>
-      </footer>
-    `;
+      </div>
+      <div class="product-info">
+        <p class="product-category">${product.category_name || 'Perfume'}</p>
+        <h3 class="product-name">
+          <a href="product.html?id=${product.id}">${product.name}</a>
+        </h3>
+        <div class="product-price">
+          <span class="price-current">${formatPrice(variant.price)}</span>
+          ${hasDiscount ? `<span class="price-original">${formatPrice(variant.compare_price)}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
 
-    document.body.insertAdjacentHTML('beforeend', footerHTML);
+/**
+ * Render products grid
+ */
+function renderProducts(products, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  
+  if (products.length === 0) {
+    container.innerHTML = '<p class="text-center" style="grid-column: 1/-1; padding: 3rem;">No products found.</p>';
+    return;
   }
-};
+  
+  container.innerHTML = products.map(product => createProductCard(product)).join('');
+  
+  // Add wishlist button listeners
+  container.querySelectorAll('.wishlist-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const productId = parseInt(btn.dataset.productId);
+      if (isInWishlist(productId)) {
+        removeFromWishlist(productId);
+        btn.classList.remove('active');
+      } else {
+        addToWishlist(productId);
+        btn.classList.add('active');
+      }
+    });
+  });
+}
 
-// Initialize on DOM ready
+// ============================================
+// INITIALIZATION
+// ============================================
+
 document.addEventListener('DOMContentLoaded', () => {
-  header.init();
-  footer.init();
-  cart.init();
+  // Initialize common UI components
+  initHeader();
+  initMobileNav();
+  initSearch();
+  updateCartCount();
+  
+  // Check auth status and update UI
+  if (isLoggedIn()) {
+    document.body.classList.add('logged-in');
+  }
 });
 
-// Export for use in other scripts
+// Export functions for use in other scripts
 window.Clefeel = {
-  utils,
-  api,
-  toast,
-  cart,
-  header,
-  footer
+  formatPrice,
+  showToast,
+  apiRequest,
+  getCart,
+  saveCart,
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+  getCartTotal,
+  getCartItemCount,
+  clearCart,
+  getWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  isInWishlist,
+  isLoggedIn,
+  getCurrentUser,
+  logout,
+  createProductCard,
+  renderProducts
 };
